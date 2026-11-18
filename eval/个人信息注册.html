@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人信息注册 - 课程评价中心</title>
+    <link rel="stylesheet" href="../css/all.min.css">
+
+    <style>
+        /* 从原文件复制的样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* 页面标题 */
+        .page-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        
+        .breadcrumb li {
+            margin: 0 0.5rem;
+        }
+        
+        .breadcrumb li:not(:last-child)::after {
+            content: ">";
+            margin-left: 1rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--light);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 表单样式 */
+        .form-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .form-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 0.5rem;
+            color: var(--secondary);
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -1rem;
+        }
+        
+        .form-group {
+            flex: 1 0 300px;
+            margin: 0 1rem 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+        
+        .photo-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            text-align: center;
+            transition: var(--transition);
+            height: 200px;
+        }
+        
+        .photo-upload:hover {
+            border-color: var(--secondary);
+        }
+        
+        .photo-upload i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+        
+        .photo-upload p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .photo-preview {
+            width: 150px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-item input {
+            margin-right: 0.5rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background: #d5dbdb;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .footer-contact span {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .footer-social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .footer-social a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav li {
+                margin: 0.5rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-group {
+                flex: 1 0 100%;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 - 与附件完全一致 -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-code"></i>
+                <span>网页设计与制作</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../started/课程概况.html">课程概况</a></li>
+                    <li><a href="../started/入门攻略.html">入门攻略</a></li>
+                    <li><a href="../learning/课程学习.html">课程学习</a></li>
+                    <li><a href="../resources/教学资源.html">教学资源</a></li>
+                    <li><a href="../test/综合测试.html">综合测试</a></li>
+                    <li><a href="../eval/课程评价.html">课程评价</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 页面标题 -->
+    <section class="page-header">
+        <div class="container">
+            <h1>个人信息注册</h1>
+            <ul class="breadcrumb">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="../eval/课程评价.html">课程评价</a></li>
+                <li>个人信息注册</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 主内容区 -->
+    <div class="container">
+        <div class="form-container">
+            <h2 class="form-title">个人信息表</h2>
+            
+<!-- 修改表单标签 -->
+<form id="personalInfoForm" action="process_data.html" method="POST" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="studentId">学号</label>
+                        <input type="text" id="studentId" name="studentId" class="form-control" placeholder="请输入学号" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="class">班级</label>
+                        <input type="text" id="class" name="class" class="form-control" placeholder="如 2502" required>
+                    </div>
+                </div>
+                <!-- 基本信息部分 -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-user"></i>
+                        一、基本信息
+                    </h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">姓名</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="请输入姓名" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gender">性别</label>
+                            <select id="gender" name="gender" class="form-control" required>
+                                <option value="男" selected>男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="age">年龄</label>
+                            <input type="number" id="age" name="age" class="form-control" placeholder="请输入年龄" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">电话</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="请输入联系电话" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="address">家庭地址</label>
+                            <input type="text" id="address" name="address" class="form-control" placeholder="请输入家庭地址" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">邮箱</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="请输入邮箱" required>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- 教育经历部分 -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        二、教育经历
+                    </h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="education">学历</label>
+                            <select id="education" name="education" class="form-control" required>
+                                <option value="中职在读" selected>中职在读</option>
+                                <option value="高中">高中</option>
+                                <option value="大专">大专</option>
+                                <option value="本科">本科</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="major">专业</label>
+                            <input type="text" id="major" name="major" class="form-control" placeholder="请输入专业" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="school">学校</label>
+                            <input type="text" id="school" name="school" class="form-control" placeholder="请输入学校" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="enrollmentDate">入学时间</label>
+                            <input type="date" id="enrollmentDate" name="enrollmentDate" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 兴趣爱好部分 -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-heart"></i>
+                        三、兴趣爱好
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label>请选择您的兴趣爱好：</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hobby1" name="hobby1">
+                                <label for="hobby1">计算机编程</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hobby2" name="hobby2">
+                                <label for="hobby2">网页设计</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hobby3" name="hobby3">
+                                <label for="hobby3">篮球运动</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hobby4" name="hobby4">
+                                <label for="hobby4">阅读技术书籍</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hobby5" name="hobby5">
+                                <label for="hobby5">音乐</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hobby6" name="hobby6">
+                                <label for="hobby6">摄影</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label style="display: flex; align-items: flex-start; gap: .5rem; font-weight: 400;">
+                        <input type="checkbox" id="privacyConsent" name="privacyConsent" required style="margin-top: .3rem;">
+                        <span>我已阅读并同意《个人信息保护说明》：本表仅用于课程学习登记，提交学号、姓名、联系方式等必要信息；不采集照片、身份证号等敏感信息。</span>
+                    </label>
+                </div>
+                <!-- 表单操作按钮 -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary">取消</button>
+                    <button type="submit" class="btn btn-primary">提交信息</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于课程</h3>
+                    <p>我们致力于提供高质量的网页设计与制作教育，将思政元素有机融入技术教学，培养学生严谨、协作、创新的职业素养。</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>联系方式</h3>
+                    <div class="footer-contact">
+                        <span><i class="fas fa-map-marker-alt"></i> 郑州市金龙路188号</span>
+                        <span><i class="fas fa-phone"></i> 0371-12345678</span>
+                        <span><i class="fas fa-envelope"></i> contact@webcourse.com</span>
+                    </div>
+                </div>
+                
+                
+                <div class="footer-section">
+                    <h3>关注我们</h3>
+                    <p>在社交媒体上关注我们，获取最新课程更新和学习资源。</p>
+                    <div class="footer-social"><span style="color:#bdc3c7;font-size:.9rem;">社交媒体入口待配置</span></div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 网页设计与制作课程 | 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+// 在个人信息注册.html的<script>
+document.getElementById('personalInfoForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    function val(id) {
+        var el = document.getElementById(id);
+        return el ? String(el.value || '').trim() : '';
+    }
+
+    var data = {
+        学号: val('studentId'),
+        姓名: val('name'),
+        性别: val('gender'),
+        年龄: val('age'),
+        专业: val('major'),
+        班级: val('class'),
+        联系电话: val('phone'),
+        邮箱: val('email'),
+        家庭地址: val('address'),
+        学历: val('education'),
+        学校: val('school'),
+        入学年份: val('enrollmentDate').slice(0, 4)
+    };
+
+    var missing = [];
+    for (var key in data) {
+        if (!data[key]) missing.push(key);
+    }
+    var consent = document.getElementById('privacyConsent');
+    if (consent && !consent.checked) missing.push('隐私同意');
+    if (missing.length) {
+        alert('请填写或确认：' + missing.join('、'));
+        return;
+    }
+
+    var params = new URLSearchParams(data);
+    window.location.href = 'process_data.html?' + params.toString();
+});
+</script>
+</body>
+</html>
